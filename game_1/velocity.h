@@ -1,13 +1,16 @@
 #ifndef VELOCITY_H_
 #define VELOCITY_H_
 
+#include <stdbool.h>
 #include <stdint.h>
 
 typedef struct velocity {
-  uint32_t x;
-  uint32_t y;
+  int32_t x;
+  int32_t y;
 
-  // Bitmask for collision layers
+  /// Set to `true` to skip all collision checks
+  bool skip_collisions;
+  /// Bitmask for collision layers
   uint32_t mask;
 } velocity_t;
 

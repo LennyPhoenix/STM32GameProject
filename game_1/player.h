@@ -1,9 +1,12 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include "entity.h"
-#include <stddef.h>
+#include <math.h>
+#include <stdbool.h>
 
-entity_t *new_player(world_t *world, size_t *world_size);
+typedef struct player {
+  bool jumping, shooting;
+  double_t aim_left, aim_right;
+} player_t;
 
 #endif

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "entity.h"
 
@@ -28,3 +29,15 @@ void delete_entity(entity_t *entity, world_t world, size_t world_size) {
 
   free(entity);
 }
+
+#define X(component_type, component_name)                                      \
+  component_type *init_##component_name(entity_t *entity) {                    \
+    if (entity->component_name) {                                              \
+      memset(entity->component_name, 0, sizeof(component_type));               \
+    } else {                                                                   \
+      entity->component_name = calloc(sizeof(component_type), 1);              \
+    }                                                                          \
+    return entity->component_name;                                             \
+  }
+COMPONENTS_TABLE
+#undef X

@@ -4,14 +4,14 @@
 #include "LCD.h"
 #include "Menu.h"
 #include "PWM.h"
+#include "aabb.h"
 #include "entity.h"
-#include "player.h"
+#include "player_entity.h"
 #include "stm32l4xx_hal.h"
 #include "system.h"
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
-
-#define PLAYER_SCREEN_POS 48
 
 extern ST7789V2_cfg_t cfg0;
 extern PWM_cfg_t pwm_cfg;       // LED PWM control
@@ -20,7 +20,17 @@ extern Buzzer_cfg_t buzzer_cfg; // Buzzer control
 static uint32_t frame_counter = 0;
 
 // Frame rate for this game (in milliseconds)
-#define GAME1_FRAME_TIME_MS 50 // 20 FPS
+#define GAME1_FRAME_TIME_MS 25 // 20 FPS
+
+void add_block(world_t *world, size_t *world_size, int32_t x) {
+  entity_t *block = new_entity(world, world_size);
+
+  aabb_t *aabb = init_aabb(block);
+  aabb->x = x;
+  aabb->y = 0;
+  aabb->width = 32;
+  aabb->height = 64;
+}
 
 MenuState Game1_Run(void) {
   // Initialize game state
@@ -38,6 +48,10 @@ MenuState Game1_Run(void) {
 
   entity_t *game = new_entity(&world, &world_size);
   entity_t *player = new_player(&world, &world_size);
+  add_block(&world, &world_size, 240);
+  add_block(&world, &world_size, 480);
+  add_block(&world, &world_size, 720);
+  add_block(&world, &world_size, 960);
 
   // Game's own loop - runs until exit condition
   while (1) {

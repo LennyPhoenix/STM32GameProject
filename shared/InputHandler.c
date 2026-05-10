@@ -79,7 +79,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
             HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
             
             // Set flag indicating button was pressed
-            btn3_raw_press = 1;
+            btn4_raw_press = 1;
         }
     }
 }

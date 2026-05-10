@@ -1,35 +1,41 @@
 #include "game_1.h"
 #include "Buzzer.h"
 #include "InputHandler.h"
+#include "Joystick.h"
 #include "LCD.h"
 #include "Menu.h"
 #include "PWM.h"
 #include "aabb.h"
 #include "entity.h"
-#include "player_entity.h"
+#include "physics.h"
+#include "player.h"
 #include "stm32l4xx_hal.h"
 #include "system.h"
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 
 extern ST7789V2_cfg_t cfg0;
-extern PWM_cfg_t pwm_cfg;       // LED PWM control
-extern Buzzer_cfg_t buzzer_cfg; // Buzzer control
+extern PWM_cfg_t pwm_cfg;           // LED PWM control
+extern Buzzer_cfg_t buzzer_cfg;     // Buzzer control
+extern Joystick_cfg_t joystick_cfg; // Joystick configuration
+extern Joystick_t joystick_data;    // Current joystick readings
 
 static uint32_t frame_counter = 0;
 
 // Frame rate for this game (in milliseconds)
-#define GAME1_FRAME_TIME_MS 25 // 20 FPS
+#define GAME1_FRAME_TIME_MS 50 // 20 FPS
 
-void add_block(world_t *world, size_t *world_size, int32_t x) {
+void add_block(world_t *world, size_t *world_size, int32_t x, int32_t y) {
   entity_t *block = new_entity(world, world_size);
 
   aabb_t *aabb = init_aabb(block);
   aabb->x = x;
-  aabb->y = 0;
-  aabb->width = 32;
-  aabb->height = 64;
+  aabb->y = 180 + y;
+  aabb->width = 200;
+  aabb->height = 80;
+  aabb->layer = ENVIRONMENT_LAYER;
 }
 
 MenuState Game1_Run(void) {
@@ -46,12 +52,14 @@ MenuState Game1_Run(void) {
   world_t world = NULL;
   size_t world_size = 0;
 
-  entity_t *game = new_entity(&world, &world_size);
   entity_t *player = new_player(&world, &world_size);
-  add_block(&world, &world_size, 240);
-  add_block(&world, &world_size, 480);
-  add_block(&world, &world_size, 720);
-  add_block(&world, &world_size, 960);
+
+  add_block(&world, &world_size, 40, 30);
+  add_block(&world, &world_size, 280, 0);
+  add_block(&world, &world_size, 520, 50);
+  add_block(&world, &world_size, 760, 15);
+
+  Joystick_Calibrate(&joystick_cfg);
 
   // Game's own loop - runs until exit condition
   while (1) {
@@ -60,6 +68,14 @@ MenuState Game1_Run(void) {
     LCD_Fill_Buffer(0);
 
     Input_Read();
+    Joystick_Read(&joystick_cfg, &joystick_data);
+
+    // this should be in a system
+    player->player->jumping =
+        current_input.btn2_pressed && player->player->on_ground;
+    player->player->shooting = current_input.btn4_pressed;
+    player->player->aim_right = joystick_data.coord_mapped.x;
+    player->player->aim_down = joystick_data.coord_mapped.y;
 
     run_systems(&world, &world_size, frame_counter);
 

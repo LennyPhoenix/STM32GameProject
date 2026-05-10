@@ -3,7 +3,7 @@
 
 typedef struct gravity {
   /// Downward velocity in m/s
-  uint32_t g;
+  int32_t g;
 } gravity_t;
 
 #endif

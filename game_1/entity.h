@@ -1,11 +1,6 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
-#include "aabb.h"
-#include "gravity.h"
-#include "player.h"
-#include "velocity.h"
-
 #include <stddef.h>
 
 #define COMPONENTS_TABLE                                                       \
@@ -14,14 +9,17 @@
   X(gravity_t, gravity)                                                        \
   X(player_t, player)
 
-/// an entity
+#define X(component_type, component_name)                                      \
+  typedef struct component_name component_type;
+COMPONENTS_TABLE
+#undef X
+
 typedef struct entity {
 #define X(component_type, component_name) component_type *component_name;
   COMPONENTS_TABLE
 #undef X
 } entity_t;
-
-/// list of `entity_t *`
+/// a world is a list of entity pointers
 typedef entity_t **world_t;
 
 /// instantiates a new entity
@@ -38,7 +36,7 @@ COMPONENTS_TABLE
 #define ITER_ENTITIES(world, world_size, entity, code)                         \
   for (size_t i = 0; i < (world_size); i++) {                                  \
     entity_t *entity = (world)[i];                                             \
-    {                                                                          \
+    if (entity) {                                                              \
       code                                                                     \
     }                                                                          \
   }

@@ -1,7 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "aabb.h"
 #include "entity.h"
+#include "gravity.h"
+#include "player.h"
+#include "velocity.h"
 
 entity_t *new_entity(world_t *world, size_t *world_size) {
   entity_t *entity = calloc(sizeof(entity_t), 1);

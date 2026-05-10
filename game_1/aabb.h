@@ -12,8 +12,8 @@ typedef struct point {
 typedef struct aabb {
   int32_t x;
   int32_t y;
-  uint32_t width;
-  uint32_t height;
+  int32_t width;
+  int32_t height;
 
   uint32_t layer;
 } aabb_t;

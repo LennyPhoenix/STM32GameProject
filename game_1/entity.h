@@ -7,7 +7,8 @@
   X(aabb_t, aabb)                                                              \
   X(velocity_t, velocity)                                                      \
   X(gravity_t, gravity)                                                        \
-  X(player_t, player)
+  X(player_t, player)                                                          \
+  X(platform_t, platform)
 
 #define X(component_type, component_name)                                      \
   typedef struct component_name component_type;

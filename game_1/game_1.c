@@ -8,6 +8,7 @@
 #include "aabb.h"
 #include "entity.h"
 #include "physics.h"
+#include "platform.h"
 #include "player.h"
 #include "stm32l4xx_hal.h"
 #include "system.h"
@@ -27,17 +28,6 @@ static uint32_t frame_counter = 0;
 // Frame rate for this game (in milliseconds)
 #define GAME1_FRAME_TIME_MS 50 // 20 FPS
 
-void add_block(world_t *world, size_t *world_size, int32_t x, int32_t y) {
-  entity_t *block = new_entity(world, world_size);
-
-  aabb_t *aabb = init_aabb(block);
-  aabb->x = x;
-  aabb->y = 180 + y;
-  aabb->width = 200;
-  aabb->height = 80;
-  aabb->layer = ENVIRONMENT_LAYER;
-}
-
 MenuState Game1_Run(void) {
   // Initialize game state
   frame_counter = 0;
@@ -54,10 +44,8 @@ MenuState Game1_Run(void) {
 
   entity_t *player = new_player(&world, &world_size);
 
-  add_block(&world, &world_size, 40, 30);
-  add_block(&world, &world_size, 280, 0);
-  add_block(&world, &world_size, 520, 50);
-  add_block(&world, &world_size, 760, 15);
+  add_platform(&world, &world_size, 30, 50);
+  add_platform(&world, &world_size, 240, 20);
 
   Joystick_Calibrate(&joystick_cfg);
 

@@ -2,6 +2,7 @@
 #include "LCD.h"
 #include "aabb.h"
 #include "entity.h"
+#include "player.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -71,4 +72,19 @@ void render_aabbs(world_t world, size_t world_size) {
       LCD_Draw_Rect(x, y, w, h, 1, 1);
     }
   });
+}
+
+void render_gameover(world_t world, size_t world_size) {
+  bool game_over = true;
+  ITER_ENTITIES(world, world_size, entity, {
+    if (entity->player) {
+      game_over = entity->player->dead;
+      break;
+    }
+  });
+
+  if (game_over) {
+    LCD_printString("Game", 80, 40, 1, 4);
+    LCD_printString("Over!", 70, 80, 1, 4);
+  }
 }

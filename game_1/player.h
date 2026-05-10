@@ -8,7 +8,7 @@
 #include <stddef.h>
 
 typedef struct player {
-  bool jumping, shooting, on_ground;
+  bool jumping, shooting, on_ground, dead;
   double_t aim_right, aim_down;
 } player_t;
 

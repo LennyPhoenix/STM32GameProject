@@ -38,4 +38,5 @@ void run_systems(world_t *world, size_t *world_size, uint32_t frame) {
   realign_aabbs_to_player(*world, *world_size);
   delete_entities(world, world_size);
   render_aabbs(*world, *world_size);
+  render_gameover(*world, *world_size);
 }

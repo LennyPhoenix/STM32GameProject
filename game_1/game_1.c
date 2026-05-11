@@ -39,37 +39,40 @@ MenuState Game1_Run(void) {
 
   MenuState exit_state = MENU_STATE_HOME; // Default: return to menu
 
+  // initialise world
   world_t world = NULL;
   size_t world_size = 0;
 
+  // instantiate player entity
   entity_t *player = new_player(&world, &world_size);
 
-  add_platform(&world, &world_size, 30, 50);
-  add_platform(&world, &world_size, 240, 20);
+  // add a couple platforms to start
+  new_platform(&world, &world_size, 30, 50);
+  new_platform(&world, &world_size, 240, 20);
 
-  Joystick_Calibrate(&joystick_cfg);
-
-  // Game's own loop - runs until exit condition
   while (1) {
     uint32_t frame_start = HAL_GetTick();
 
+    // clear screen - should be a system
     LCD_Fill_Buffer(0);
 
+    // read input - should be a system
     Input_Read();
     Joystick_Read(&joystick_cfg, &joystick_data);
 
-    // this should be in a system
+    // store user input in player - should be a system
     player->player->jumping =
         current_input.btn2_pressed && player->player->on_ground;
     player->player->shooting = current_input.btn4_pressed;
     player->player->aim_right = joystick_data.coord_mapped.x;
     player->player->aim_down = joystick_data.coord_mapped.y;
 
+    // run all systems
     run_systems(&world, &world_size, frame_counter);
 
     LCD_Refresh(&cfg0);
 
-    // Frame timing - wait for remainder of frame time
+    // wait for remainder of frame time
     uint32_t frame_time = HAL_GetTick() - frame_start;
     if (frame_time < GAME1_FRAME_TIME_MS) {
       HAL_Delay(GAME1_FRAME_TIME_MS - frame_time);
@@ -78,5 +81,5 @@ MenuState Game1_Run(void) {
     frame_counter++;
   }
 
-  return exit_state; // Tell main where to go next
+  return exit_state;
 }

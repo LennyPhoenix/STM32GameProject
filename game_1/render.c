@@ -10,6 +10,7 @@
 void realign_aabbs_to_player(world_t world, size_t world_size) {
   aabb_t *player_aabb = NULL;
 
+  // find the first player in the world
   ITER_ENTITIES(world, world_size, entity, {
     if (entity->player && entity->aabb) {
       player_aabb = entity->aabb;
@@ -18,7 +19,12 @@ void realign_aabbs_to_player(world_t world, size_t world_size) {
   });
 
   if (player_aabb) {
-    int32_t player_x = player_aabb->x;
+    // if there is a player, move every entity to be relative to the player at
+    // the origin.
+    //
+    // magic 40 here is so that the player has some space from the left side of
+    // the screen.
+    int32_t player_x = player_aabb->x - 40;
     ITER_ENTITIES(world, world_size, entity, {
       if (entity->aabb) {
         entity->aabb->x -= player_x;
@@ -27,13 +33,14 @@ void realign_aabbs_to_player(world_t world, size_t world_size) {
   }
 }
 
-void render_aabbs(world_t world, size_t world_size) {
+void render_rects(world_t world, size_t world_size) {
   ITER_ENTITIES(world, world_size, entity, {
-    if (entity->aabb) {
+    if (entity->aabb && entity->draw_rect) {
       aabb_t aabb = *entity->aabb;
 
       if (aabb.x + aabb.width <= 0 || aabb.y + aabb.height <= 0 ||
           aabb.x >= 240 || aabb.y >= 240) {
+        // skip this entity if it is fully off-screen
         continue;
       }
 
@@ -42,26 +49,32 @@ void render_aabbs(world_t world, size_t world_size) {
       uint32_t y;
       uint32_t h;
       if (aabb.x < 0) {
+        // clamp to left side of the screen
         x = 0;
         w = aabb.width + aabb.x;
       } else {
+        // full width
         x = aabb.x;
         w = aabb.width;
       }
       if (aabb.y < 0) {
+        // clamp to top of screen
         y = 0;
         h = aabb.height + aabb.y;
       } else {
+        // full height
         y = aabb.y;
         h = aabb.height;
       }
 
       int32_t right = x + w;
       if (right > 240) {
+        // clamp to right of screen
         w -= right - 240;
       }
       int32_t bottom = y + h;
       if (bottom > 240) {
+        // clamp to bottom of screen
         h -= bottom - 240;
       }
 
@@ -69,13 +82,15 @@ void render_aabbs(world_t world, size_t world_size) {
       //        y, w, h, aabb.x, aabb.y, aabb.width, aabb.height);
 
       // LCD is 240x240
-      LCD_Draw_Rect(x, y, w, h, 1, 1);
+      LCD_Draw_Rect(x, y, w, h, entity->draw_rect->colour,
+                    entity->draw_rect->fill);
     }
   });
 }
 
 void render_gameover(world_t world, size_t world_size) {
   bool game_over = true;
+  // if no player is found, the game is considered over
   ITER_ENTITIES(world, world_size, entity, {
     if (entity->player) {
       game_over = entity->player->dead;
@@ -84,6 +99,7 @@ void render_gameover(world_t world, size_t world_size) {
   });
 
   if (game_over) {
+    // todo: render the score
     LCD_printString("Game", 80, 40, 1, 4);
     LCD_printString("Over!", 70, 80, 1, 4);
   }

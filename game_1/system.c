@@ -22,7 +22,7 @@ void delete_entities(world_t *world, size_t *world_size) {
                              entity->aabb->y + entity->aabb->height < 0)) {
           if (entity->platform) {
             double_t weight = (double_t)rand() / (double_t)RAND_MAX;
-            add_platform(world, world_size, 240, 80 * weight);
+            new_platform(world, world_size, 240, 80 * weight);
           }
           delete_entity(entity, *world, *world_size);
         }
@@ -37,6 +37,6 @@ void run_systems(world_t *world, size_t *world_size, uint32_t frame) {
   move_entities(*world, *world_size);
   realign_aabbs_to_player(*world, *world_size);
   delete_entities(world, world_size);
-  render_aabbs(*world, *world_size);
+  render_rects(*world, *world_size);
   render_gameover(*world, *world_size);
 }

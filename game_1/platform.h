@@ -6,11 +6,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/// platforms don't yet store any data
 typedef struct platform {
-  bool test;
 } platform_t;
 
-entity_t *add_platform(world_t *world, size_t *world_size, int32_t x,
+/// instantiates a new platform entity
+entity_t *new_platform(world_t *world, size_t *world_size, int32_t x,
                        int32_t y);
 
 #endif

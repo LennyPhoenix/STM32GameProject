@@ -1,6 +1,7 @@
 #include "aabb.h"
 
 bool intersects_aabb_aabb(aabb_t a, aabb_t b) {
+  // calculate sides for each AABB
   int32_t left_a, right_a, top_a, bottom_a;
   int32_t left_b, right_b, top_b, bottom_b;
 
@@ -14,6 +15,10 @@ bool intersects_aabb_aabb(aabb_t a, aabb_t b) {
   bottom_a = top_a + a.height;
   bottom_b = top_b + b.height;
 
+  // `>` instead of `>=` used here as the right side of an AABB does not occupy
+  // the position it points to
+  // e.g. a rect with position 0,0 and size 5x5 has a right side at x=5 (0 + 5 =
+  // 5), but the AABB does not actually occupy the coordinate (5,0).
   return (left_b < right_a && top_b < bottom_a && right_b > left_a &&
           bottom_b > top_a);
 }
@@ -25,5 +30,6 @@ bool intersects_aabb_point(aabb_t a, point_t b) {
   top = a.y;
   bottom = top + a.height;
 
+  // see above note, `>=` for left, `<` for right
   return (b.x >= left && b.x < right && b.y >= top && b.y < bottom);
 }

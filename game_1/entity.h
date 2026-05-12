@@ -16,7 +16,9 @@
   X(bat_t, bat)                                                                \
   X(sensor_t, sensor)                                                          \
   X(game_component_t, game_component)                                          \
-  X(jump_t, jump)
+  X(jump_t, jump)                                                              \
+  X(weapon_t, weapon)                                                          \
+  X(timer_component_t, timer)
 
 // incomplete typedefs to prevent cyclic includes
 #define X(component_type, component_name)                                      \
@@ -49,6 +51,12 @@ void delete_entity(entity_t *entity, world_t world, size_t world_size);
 // procedural `init_component` methods.
 #define X(component_type, component_name)                                      \
   component_type *init_##component_name(entity_t *entity);
+COMPONENTS_TABLE
+#undef X
+
+// procedural `ensure_component` methods.
+#define X(component_type, component_name)                                      \
+  component_type *ensure_##component_name(entity_t *entity);
 COMPONENTS_TABLE
 #undef X
 

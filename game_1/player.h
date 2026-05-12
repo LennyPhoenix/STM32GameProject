@@ -10,8 +10,7 @@
 /// player component: stores control data (shooting, aim_right,
 /// aim_left) and state data (on_ground, dead).
 typedef struct player {
-  bool shooting, dead;
-  double_t aim_right, aim_down;
+  bool dead;
 } player_t;
 
 /// instantiates a new player instance

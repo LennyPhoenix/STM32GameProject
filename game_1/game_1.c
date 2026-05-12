@@ -34,7 +34,7 @@ static uint32_t frame_counter = 0;
 void new_game(world_t *world, size_t *world_size) {
   // delete all existing entities
   ITER_ENTITIES(*world, *world_size, entity,
-                { delete_entity(entity, *world, *world_size); });
+                { if (entity) {delete_entity(entity, *world, *world_size); } });
 
   // init new game entity, should be in slot 0!
   entity_t *game = new_entity(world, world_size);
@@ -75,7 +75,6 @@ MenuState Game1_Run(void) {
     Input_Read();
     Joystick_Read(&joystick_cfg, &joystick_data);
 
-    // store user input in player - TODO should be a system
     // run all systems
     run_systems(&world, &world_size, frame_counter);
 

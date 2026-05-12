@@ -100,7 +100,8 @@ void render_gameover(world_t world, size_t world_size) {
     LCD_printString("Your Score:", 20, 110, 1, 3);
     char score[11];
     sprintf(score, "%.10lu", game->game_component->score);
-    LCD_printString(score, 70, 140, 1, 2);
+    LCD_printString(score, 55, 140, 1, 2);
+    LCD_printString("BTN3 to Restart", 60, 163, 1, 1);
   }
 }
 

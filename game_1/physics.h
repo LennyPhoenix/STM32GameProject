@@ -7,6 +7,8 @@
 #define ENVIRONMENT_LAYER (1 << 0)
 #define PLAYER_LAYER (1 << 1)
 #define ENEMY_LAYER (1 << 2)
+#define PLAYER_PROJECTILE_LAYER (1 << 3)
+#define ENEMY_PROJECTILE_LAYER (1 << 4)
 
 /// system to apply gravity to an entity
 void apply_gravity(world_t world, size_t world_size);

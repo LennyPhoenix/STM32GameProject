@@ -2,6 +2,7 @@
 #include "aabb.h"
 #include "entity.h"
 #include "gravity.h"
+#include "jump.h"
 #include "physics.h"
 #include "player.h"
 #include "render.h"
@@ -11,10 +12,11 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void spawn_enemies(world_t *world, size_t *world_size, uint32_t frame) {
   if (frame % 20 == 0) {
-    new_zombie(world, world_size);
+    new_zombie(world, world_size, frame);
   }
 }
 
@@ -27,7 +29,22 @@ void enemy_sensor_callback(world_t *_world, size_t *_world_size,
   }
 }
 
-entity_t *new_zombie(world_t *world, size_t *world_size) {
+void check_zombie_jumps(world_t world, size_t world_size, uint32_t frame) {
+  for (size_t i = 0; i < (world_size); i++) {
+    entity_t *entity = (world)[i];
+    if (entity) {
+      {
+        if (entity->zombie && entity->zombie->next_jump <= frame &&
+            entity->jump && entity->gravity && entity->gravity->on_ground) {
+          entity->zombie->next_jump = frame + (uint32_t)(rand() % 60);
+          entity->jump->jumping = true;
+        }
+      }
+    }
+  };
+}
+
+entity_t *new_zombie(world_t *world, size_t *world_size, uint32_t frame) {
   entity_t *zombie = new_entity(world, world_size);
 
   aabb_t *aabb = init_aabb(zombie);
@@ -52,7 +69,11 @@ entity_t *new_zombie(world_t *world, size_t *world_size) {
   sensor->callback = enemy_sensor_callback;
   sensor->mask = PLAYER_LAYER;
 
-  init_zombie(zombie);
+  zombie_t *zombie_c = init_zombie(zombie);
+  zombie_c->next_jump = frame + (uint32_t)(rand() % 80);
+
+  jump_t *jump = init_jump(zombie);
+  jump->power = 35;
 
   return zombie;
 }

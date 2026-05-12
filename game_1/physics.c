@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "gravity.h"
 #include "velocity.h"
+
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>

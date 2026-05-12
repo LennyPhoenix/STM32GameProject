@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "game_entity.h"
 #include "gravity.h"
+#include "jump.h"
 #include "platform.h"
 #include "player.h"
 #include "render.h"

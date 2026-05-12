@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "game_entity.h"
 #include "gravity.h"
+#include "jump.h"
 #include "physics.h"
 #include "platform.h"
 #include "render.h"
@@ -23,8 +24,8 @@ void update_player_inputs(world_t world, size_t world_size) {
   }
 
   ITER_ENTITIES(world, world_size, player, {
-    if (player->player) {
-      player->player->jumping =
+    if (player->player && player->jump) {
+      player->jump->jumping =
           current_input.btn2_pressed && player->gravity->on_ground;
       player->player->shooting = current_input.btn4_pressed;
       player->player->aim_right = joystick_data.coord_mapped.x;
@@ -36,10 +37,6 @@ void update_player_inputs(world_t world, size_t world_size) {
 void update_player_velocity(world_t world, size_t world_size) {
   ITER_ENTITIES(world, world_size, entity, {
     if (entity->player && entity->velocity) {
-      if (entity->player->jumping) {
-        // initial jump velocity = -50
-        entity->velocity->y = -40;
-      }
       if (entity->player->dead) {
         entity->velocity->x = 1;
       } else {
@@ -102,6 +99,9 @@ entity_t *new_player(world_t *world, size_t *world_size) {
   draw_rect_t *draw_rect = init_draw_rect(player);
   draw_rect->colour = 2;
   draw_rect->fill = 1;
+
+  jump_t *jump = init_jump(player);
+  jump->power = 40;
 
   init_player(player);
 

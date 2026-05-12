@@ -7,10 +7,10 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-/// player component: stores control data (jumping, shooting, aim_right,
+/// player component: stores control data (shooting, aim_right,
 /// aim_left) and state data (on_ground, dead).
 typedef struct player {
-  bool jumping, shooting, dead;
+  bool shooting, dead;
   double_t aim_right, aim_down;
 } player_t;
 

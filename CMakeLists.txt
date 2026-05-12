@@ -63,6 +63,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/game_1/physics.c
     ${CMAKE_SOURCE_DIR}/game_1/aabb.c
     ${CMAKE_SOURCE_DIR}/game_1/platform.c
+    ${CMAKE_SOURCE_DIR}/game_1/jump.c
     ${CMAKE_SOURCE_DIR}/game_1/enemy.c
     ${CMAKE_SOURCE_DIR}/game_1/sensor.c
 

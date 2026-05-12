@@ -15,7 +15,8 @@
   X(zombie_t, zombie)                                                          \
   X(bat_t, bat)                                                                \
   X(sensor_t, sensor)                                                          \
-  X(game_component_t, game_component)
+  X(game_component_t, game_component)                                          \
+  X(jump_t, jump)
 
 // incomplete typedefs to prevent cyclic includes
 #define X(component_type, component_name)                                      \

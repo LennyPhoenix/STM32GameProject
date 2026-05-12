@@ -94,8 +94,13 @@ void render_gameover(world_t world, size_t world_size) {
   entity_t *game = *world;
   if (game->game_component && game->game_component->game_over) {
     // todo: render the score
-    LCD_printString("Game", 80, 40, 1, 4);
-    LCD_printString("Over!", 70, 80, 1, 4);
+    LCD_printString("Game", 80, 40, 1, 3);
+    LCD_printString("Over!", 70, 70, 1, 3);
+
+    LCD_printString("Your Score:", 20, 110, 1, 3);
+    char score[11];
+    sprintf(score, "%.10lu", game->game_component->score);
+    LCD_printString(score, 70, 140, 1, 2);
   }
 }
 

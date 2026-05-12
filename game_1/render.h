@@ -17,5 +17,7 @@ void realign_aabbs_to_player(world_t world, size_t world_size);
 void render_rects(world_t world, size_t world_size);
 /// draws the gameover screen if applicable
 void render_gameover(world_t world, size_t world_size);
+/// renders the current score to the top left of the screen
+void render_score(world_t world, size_t world_size);
 
 #endif

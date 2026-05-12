@@ -5,6 +5,8 @@
 typedef struct gravity {
   /// Downward velocity in m/s
   int32_t g;
+  /// whether the entity collided with ground in the last frame
+  bool on_ground;
 } gravity_t;
 
 #endif

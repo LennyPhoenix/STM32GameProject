@@ -11,7 +11,11 @@
   X(gravity_t, gravity)                                                        \
   X(player_t, player)                                                          \
   X(platform_t, platform)                                                      \
-  X(draw_rect_t, draw_rect)
+  X(draw_rect_t, draw_rect)                                                    \
+  X(zombie_t, zombie)                                                          \
+  X(bat_t, bat)                                                                \
+  X(sensor_t, sensor)                                                          \
+  X(game_component_t, game_component)
 
 // incomplete typedefs to prevent cyclic includes
 #define X(component_type, component_name)                                      \

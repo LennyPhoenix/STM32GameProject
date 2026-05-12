@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 /// stores information about a collision.
@@ -29,7 +30,8 @@ typedef struct velocity {
   uint32_t mask;
 
   /// called when the entity collides with another
-  void (*callback)(entity_t *entity, collision_t collision);
+  void (*callback)(world_t *world, size_t *world_size, entity_t *entity,
+                   collision_t collision);
 } velocity_t;
 
 #endif

@@ -8,6 +8,7 @@
 
 /// platforms don't yet store any data
 typedef struct platform {
+  bool reached;
 } platform_t;
 
 /// instantiates a new platform entity

@@ -10,13 +10,17 @@
 /// player component: stores control data (jumping, shooting, aim_right,
 /// aim_left) and state data (on_ground, dead).
 typedef struct player {
-  bool jumping, shooting, on_ground, dead;
+  bool jumping, shooting, dead;
   double_t aim_right, aim_down;
 } player_t;
 
 /// instantiates a new player instance
 entity_t *new_player(world_t *world, size_t *world_size);
+/// updates player user input data
+void update_player_inputs(world_t world, size_t world_size);
 /// updates the player's velocity component
 void update_player_velocity(world_t world, size_t world_size);
+/// checks if the player exists and is still alive
+void check_player_death(world_t world, size_t world_size);
 
 #endif

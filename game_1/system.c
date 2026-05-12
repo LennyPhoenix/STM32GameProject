@@ -1,10 +1,13 @@
 #include "system.h"
 #include "aabb.h"
+#include "enemy.h"
 #include "entity.h"
 #include "physics.h"
 #include "platform.h"
 #include "player.h"
 #include "render.h"
+#include "sensor.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -32,11 +35,16 @@ void delete_entities(world_t *world, size_t *world_size) {
 }
 
 void run_systems(world_t *world, size_t *world_size, uint32_t frame) {
-  update_player_velocity(*world, *world_size);
+  update_player_inputs(*world, *world_size);
+  spawn_enemies(world, world_size, frame);
   apply_gravity(*world, *world_size);
-  move_entities(*world, *world_size);
+  update_player_velocity(*world, *world_size);
+  move_entities(world, world_size);
+  check_sensors(world, world_size, frame);
   realign_aabbs_to_player(*world, *world_size);
   delete_entities(world, world_size);
   render_rects(*world, *world_size);
+  check_player_death(*world, *world_size);
   render_gameover(*world, *world_size);
+  render_score(*world, *world_size);
 }

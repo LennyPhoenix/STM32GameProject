@@ -2,11 +2,14 @@
 #include <string.h>
 
 #include "aabb.h"
+#include "enemy.h"
 #include "entity.h"
+#include "game_entity.h"
 #include "gravity.h"
 #include "platform.h"
 #include "player.h"
 #include "render.h"
+#include "sensor.h"
 #include "velocity.h"
 
 entity_t *new_entity(world_t *world, size_t *world_size) {

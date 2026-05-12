@@ -2,7 +2,9 @@
 #include "LCD.h"
 #include "aabb.h"
 #include "entity.h"
+#include "game_entity.h"
 #include "player.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -89,18 +91,19 @@ void render_rects(world_t world, size_t world_size) {
 }
 
 void render_gameover(world_t world, size_t world_size) {
-  bool game_over = true;
-  // if no player is found, the game is considered over
-  ITER_ENTITIES(world, world_size, entity, {
-    if (entity->player) {
-      game_over = entity->player->dead;
-      break;
-    }
-  });
-
-  if (game_over) {
+  entity_t *game = *world;
+  if (game->game_component && game->game_component->game_over) {
     // todo: render the score
     LCD_printString("Game", 80, 40, 1, 4);
     LCD_printString("Over!", 70, 80, 1, 4);
+  }
+}
+
+void render_score(world_t world, size_t world_size) {
+  entity_t *game = *world;
+  if (game && game->game_component && !game->game_component->game_over) {
+    char score[10];
+    sprintf(score, "Score: %lu", game->game_component->score);
+    LCD_printString(score, 2, 2, 1, 2);
   }
 }

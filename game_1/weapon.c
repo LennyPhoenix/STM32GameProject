@@ -1,4 +1,5 @@
 #include "weapon.h"
+#include "Buzzer.h"
 #include "aabb.h"
 #include "entity.h"
 #include "velocity.h"
@@ -6,6 +7,8 @@
 #include <math.h>
 #include <stddef.h>
 #include <stdint.h>
+
+extern Buzzer_cfg_t buzzer_cfg; // Buzzer control
 
 void fire_weapons(world_t *world, size_t *world_size, uint32_t frame) {
   ITER_ENTITIES(*world, *world_size, entity, {
@@ -24,6 +27,8 @@ void fire_weapons(world_t *world, size_t *world_size, uint32_t frame) {
         velocity_t *velocity = ensure_velocity(projectile);
         velocity->x = weapon->projectile_speed * weapon->aim_right;
         velocity->y = weapon->projectile_speed * -weapon->aim_down;
+
+        buzzer_tone(&buzzer_cfg, 1000, 60);
       }
     }
   });

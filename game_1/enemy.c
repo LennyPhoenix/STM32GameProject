@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "Buzzer.h"
 #include "aabb.h"
 #include "entity.h"
 #include "gravity.h"
@@ -14,6 +15,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+extern Buzzer_cfg_t buzzer_cfg; // Buzzer control
+
 void spawn_enemies(world_t *world, size_t *world_size, uint32_t frame) {
   if (frame % 20 == 0) {
     new_zombie(world, world_size, frame);
@@ -23,8 +26,7 @@ void spawn_enemies(world_t *world, size_t *world_size, uint32_t frame) {
 void enemy_sensor_callback(world_t *_world, size_t *_world_size,
                            uint32_t _frame, entity_t *enemy, entity_t *other) {
   if (other->player) {
-    // kill the player
-    printf("player killed!");
+    buzzer_tone(&buzzer_cfg, 300, 100);
     other->player->dead = true;
   }
 }

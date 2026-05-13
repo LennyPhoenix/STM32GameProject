@@ -31,7 +31,7 @@ void check_restart(world_t *world, size_t *world_size) {
 }
 
 /// deletes entities that have passed the top, bottom, or left sides of the
-/// screen
+/// screen, and entities that are too far to the right of the screen
 void delete_entities(world_t *world, size_t *world_size) {
   for (size_t i = 0; i < (*world_size); i++) {
     entity_t *entity = (*world)[i];
@@ -39,7 +39,8 @@ void delete_entities(world_t *world, size_t *world_size) {
       {
         if (entity->aabb && (entity->aabb->x + entity->aabb->width <= 0 ||
                              entity->aabb->y >= 240 ||
-                             entity->aabb->y + entity->aabb->height < 0)) {
+                             entity->aabb->y + entity->aabb->height < 0 ||
+                             entity->aabb->x > 600)) {
           if (entity->platform) {
             double_t weight = (double_t)rand() / (double_t)RAND_MAX;
             new_platform(world, world_size, 240, 80 * weight);

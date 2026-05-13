@@ -68,6 +68,7 @@ void delete_entity(entity_t *entity, world_t world, size_t world_size) {
 #define X(component_type, component_name)                                      \
   if (entity->component_name) {                                                \
     free(entity->component_name);                                              \
+    entity->component_name = NULL;                                             \
   }
   COMPONENTS_TABLE
 #undef X

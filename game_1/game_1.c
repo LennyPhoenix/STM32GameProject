@@ -33,8 +33,11 @@ static uint32_t frame_counter = 0;
 
 void new_game(world_t *world, size_t *world_size) {
   // delete all existing entities
-  ITER_ENTITIES(*world, *world_size, entity,
-                { if (entity) {delete_entity(entity, *world, *world_size); } });
+  ITER_ENTITIES(*world, *world_size, entity, {
+    if (entity) {
+      delete_entity(entity, *world, *world_size);
+    }
+  });
 
   // init new game entity, should be in slot 0!
   entity_t *game = new_entity(world, world_size);
@@ -67,6 +70,7 @@ MenuState Game1_Run(void) {
 
   while (1) {
     uint32_t frame_start = HAL_GetTick();
+    buzzer_off(&buzzer_cfg);
 
     // clear screen - TODO should be a system
     LCD_Fill_Buffer(0);

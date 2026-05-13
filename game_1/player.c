@@ -1,4 +1,5 @@
 #include "player.h"
+#include "Buzzer.h"
 #include "InputHandler.h"
 #include "Joystick.h"
 #include "aabb.h"
@@ -20,6 +21,7 @@
 #include <stdlib.h>
 
 extern Joystick_t joystick_data; // Current joystick readings
+extern Buzzer_cfg_t buzzer_cfg;  // Buzzer control
 
 void update_player_inputs(world_t world, size_t world_size) {
   if ((*world)->game_component && (*world)->game_component->game_over) {
@@ -123,7 +125,7 @@ void player_projectile_sensor_callback(world_t *world, size_t *world_size,
 
     game->game_component->score += score;
 
-    // TODO play a noise
+    buzzer_tone(&buzzer_cfg, 400, 100);
 
     delete_entity(detected, *world, *world_size);
     delete_entity(projectile, *world, *world_size);
@@ -184,7 +186,7 @@ entity_t *new_player(world_t *world, size_t *world_size) {
 
   weapon_t *weapon = init_weapon(player);
   weapon->projectile_speed = 30;
-  weapon->cooldown = 15;
+  weapon->cooldown = 8;
   weapon->new_projectile = new_player_projectile;
 
   init_player(player);

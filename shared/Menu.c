@@ -27,25 +27,29 @@ static void render_home_menu(MenuSystem* menu) {
     LCD_Fill_Buffer(0);
     
     // Title
-    LCD_printString("L.E.E.D.S.", 50, 10, 1, 3);
+    LCD_printString("L.E.E.D.S.", 10, 10, 1, 4);
+    LCD_printString("Leeds Electronics Entertainment Device", 0, 50, 1, 1);
+    LCD_printString("System", 200, 60, 1, 1);
+
     
     // Menu options with selection highlight
     for (int i = 0; i < NUM_MENU_OPTIONS; i++) {
-        uint16_t y_pos = 70 + (i * 40);
+        uint16_t y_pos = 90 + (i * 40);
         uint8_t text_size = 2;
         
         if (i == menu->selected_option) {
             // Highlight selected option with inverted colors
             // Draw a rectangle around selected option
             // We'll use simple marker instead
-            LCD_printString(">", 40, y_pos, 1, text_size);  // Arrow pointing to selection
+            LCD_printString(">", 20, y_pos, 1, text_size);  // Arrow pointing to selection
         }
         
-        LCD_printString((char*)menu_options[i], 70, y_pos, 1, text_size);
+        LCD_printString((char*)menu_options[i], 50, y_pos, 2 + i, text_size);
     }
+
     
     // Instructions
-    LCD_printString("Press BT3", 50, 240, 1, 1);
+    LCD_printString("Press BT3", 20, 220, 1, 1);
     
     LCD_Refresh(&cfg0);
 }

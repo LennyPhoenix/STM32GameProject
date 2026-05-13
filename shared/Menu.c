@@ -13,7 +13,7 @@ extern Joystick_t joystick_data;     // Current joystick readings
 static const char* menu_options[] = {
     "RUN!",
     "Minesweeper", 
-    "Game 3"
+    "Stickman"
 };
 #define NUM_MENU_OPTIONS 3
 

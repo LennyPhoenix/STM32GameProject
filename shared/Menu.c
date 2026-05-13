@@ -12,7 +12,7 @@ extern Joystick_t joystick_data;     // Current joystick readings
 // Menu options
 static const char* menu_options[] = {
     "Game 1",
-    "Game 2", 
+    "Minesweeper", 
     "Game 3"
 };
 #define NUM_MENU_OPTIONS 3

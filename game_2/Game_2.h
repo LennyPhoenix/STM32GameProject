@@ -2,6 +2,8 @@
 #define GAME_2_H
 
 #include "Menu.h"
+#include <stdint.h>
+
 
 /**
  * @brief Game 2 - Student can implement their own game here
@@ -17,5 +19,19 @@
  */
 
 MenuState Game2_Run(void);
+void pixel_coords (void);
+void welcome_screen (void);
+void instruction_screen (void);
+void draw_gamescreen (void);
+void draw_checkerboard (void);
+void draw_infobar (void);
+void draw_cursor (void);
+void place_bombs (void);
+void calculate_numbers (void);
+void place_crosses (void);
+void dig (void);
+void game_lost (void);
+void game_won (void);
+void reset_game (void); 
 
 #endif // GAME_2_H

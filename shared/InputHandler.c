@@ -1,5 +1,8 @@
 #include "InputHandler.h"
 #include "main.h"
+#include "stm32l476xx.h"
+#include "stm32l4xx_hal_gpio.h"
+#include <stdint.h>
 
 // Global input state
 InputState current_input = {0};
@@ -8,6 +11,7 @@ InputState current_input = {0};
 static volatile uint8_t btn2_raw_press = 0;
 static volatile uint8_t btn3_raw_press = 0;
 static volatile uint8_t btn4_raw_press = 0;
+static volatile uint8_t b1_raw_press = 0; 
 
 void Input_Init(void) {
     // GPIO and EXTI already initialized by MX_GPIO_Init() in main.c
@@ -18,6 +22,9 @@ void Input_Init(void) {
     btn2_raw_press = 0;
     btn3_raw_press = 0;
     btn4_raw_press = 0;
+
+    current_input.b1_pressed = 0; 
+    b1_raw_press = 0; 
 }
 
 void Input_Read(void) {
@@ -26,11 +33,15 @@ void Input_Read(void) {
     current_input.btn2_pressed = btn2_raw_press;
     current_input.btn3_pressed = btn3_raw_press;
     current_input.btn4_pressed = btn4_raw_press;
+
+    current_input.b1_pressed = b1_raw_press; 
     
     // Reset the flags after reading so they only trigger once
     btn2_raw_press = 0;
     btn3_raw_press = 0;
     btn4_raw_press = 0;
+
+    b1_raw_press = 0; 
 }
 
 // ===== INTERRUPT CALLBACK FOR BUTTONS =====
@@ -39,6 +50,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     static uint32_t last_btn2_interrupt = 0;
     static uint32_t last_btn3_interrupt = 0;
     static uint32_t last_btn4_interrupt = 0;
+
+    static uint32_t last_b1_interrupt = 0; 
+
     uint32_t current_time = HAL_GetTick();
     
     // Handle BT2
@@ -80,6 +94,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
             
             // Set flag indicating button was pressed
             btn3_raw_press = 1;
+        }
+    }
+
+    if (GPIO_Pin == B1_Pin) {
+        // Software debouncing (200ms)
+        if ((current_time - last_b1_interrupt) > 200) {
+            last_b1_interrupt = current_time; 
+
+            // Toggle LED to indicate button press
+            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+
+            // Set flag indicating button was pressed
+            b1_raw_press = 1; 
         }
     }
 }

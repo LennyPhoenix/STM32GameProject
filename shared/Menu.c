@@ -11,7 +11,7 @@ extern Joystick_t joystick_data;     // Current joystick readings
 
 // Menu options
 static const char* menu_options[] = {
-    "Game 1",
+    "RUN!",
     "Minesweeper", 
     "Game 3"
 };
@@ -27,7 +27,7 @@ static void render_home_menu(MenuSystem* menu) {
     LCD_Fill_Buffer(0);
     
     // Title
-    LCD_printString("MAIN MENU", 50, 10, 1, 3);
+    LCD_printString("L.E.E.D.S.", 50, 10, 1, 3);
     
     // Menu options with selection highlight
     for (int i = 0; i < NUM_MENU_OPTIONS; i++) {

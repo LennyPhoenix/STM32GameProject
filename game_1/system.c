@@ -24,7 +24,7 @@ void check_restart(world_t *world, size_t *world_size) {
   entity_t *game = **world;
   bool game_valid = game && game->game_component;
   bool game_restarted = game_valid && game->game_component->game_over &&
-                        current_input.btn3_pressed;
+                        current_input.btn4_pressed;
   if (!game_valid || game_restarted) {
     new_game(world, world_size);
   }

@@ -91,6 +91,13 @@ MenuState Game1_Run(void) {
     }
 
     frame_counter++;
+
+    // exit game if over and button 3 pressed
+    entity_t *game = *world;
+    if (game && game->game_component && game->game_component->game_over &&
+        current_input.btn3_pressed) {
+      break;
+    }
   }
 
   return exit_state;

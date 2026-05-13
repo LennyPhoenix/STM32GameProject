@@ -171,8 +171,8 @@ MenuState Game2_Run(void) {
         draw_cursor();
         LCD_Refresh(&cfg0);
         
-        if (current_input.b1_pressed) {
-            //printf("Button 1 is being pressed\n"); 
+        if (current_input.btn4_pressed) {
+            //printf("Button 4 is being pressed\n"); 
             dig();
         }
 

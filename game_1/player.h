@@ -1,0 +1,25 @@
+#ifndef PLAYER_H_
+#define PLAYER_H_
+
+#include "entity.h"
+
+#include <math.h>
+#include <stdbool.h>
+#include <stddef.h>
+
+/// player component: stores control data (shooting, aim_right,
+/// aim_left) and state data (on_ground, dead).
+typedef struct player {
+  bool dead;
+} player_t;
+
+/// instantiates a new player instance
+entity_t *new_player(world_t *world, size_t *world_size);
+/// updates player user input data
+void update_player_inputs(world_t world, size_t world_size);
+/// updates the player's velocity component
+void update_player_velocity(world_t world, size_t world_size);
+/// checks if the player exists and is still alive
+void check_player_death(world_t world, size_t world_size);
+
+#endif

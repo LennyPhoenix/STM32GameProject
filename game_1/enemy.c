@@ -18,8 +18,14 @@
 extern Buzzer_cfg_t buzzer_cfg; // Buzzer control
 
 void spawn_enemies(world_t *world, size_t *world_size, uint32_t frame) {
-  if (frame % 20 == 0) {
-    new_zombie(world, world_size, frame);
+  if (frame % 40 == 30) {
+    new_zombie_jumper(world, world_size, frame);
+  }
+  if (frame % 55 == 25) {
+    new_zombie_runner(world, world_size, frame);
+  }
+  if (frame % 75 == 50) {
+    new_bat(world, world_size, frame);
   }
 }
 
@@ -46,7 +52,39 @@ void check_zombie_jumps(world_t world, size_t world_size, uint32_t frame) {
   };
 }
 
-entity_t *new_zombie(world_t *world, size_t *world_size, uint32_t frame) {
+entity_t *new_zombie_runner(world_t *world, size_t *world_size,
+                            uint32_t frame) {
+  entity_t *zombie = new_entity(world, world_size);
+
+  aabb_t *aabb = init_aabb(zombie);
+  aabb->x = 260;
+  aabb->y = 40;
+  aabb->width = 16;
+  aabb->height = 16;
+  aabb->layer = ENEMY_LAYER;
+
+  velocity_t *velocity = init_velocity(zombie);
+  velocity->x = -6;
+  velocity->mask = ENVIRONMENT_LAYER;
+
+  draw_rect_t *draw_rect = init_draw_rect(zombie);
+  draw_rect->colour = 5;
+  draw_rect->fill = 1;
+
+  gravity_t *gravity = init_gravity(zombie);
+  gravity->g = 10;
+
+  sensor_t *sensor = init_sensor(zombie);
+  sensor->callback = enemy_sensor_callback;
+  sensor->mask = PLAYER_LAYER;
+
+  init_zombie(zombie);
+
+  return zombie;
+}
+
+entity_t *new_zombie_jumper(world_t *world, size_t *world_size,
+                            uint32_t frame) {
   entity_t *zombie = new_entity(world, world_size);
 
   aabb_t *aabb = init_aabb(zombie);
@@ -80,8 +118,27 @@ entity_t *new_zombie(world_t *world, size_t *world_size, uint32_t frame) {
   return zombie;
 }
 
-entity_t *new_bat(world_t *world, size_t *world_size) {
+entity_t *new_bat(world_t *world, size_t *world_size, uint32_t frame) {
   entity_t *bat = new_entity(world, world_size);
+
+  aabb_t *aabb = init_aabb(bat);
+  aabb->x = 260;
+  aabb->y = 40;
+  aabb->width = 16;
+  aabb->height = 16;
+  aabb->layer = ENEMY_LAYER;
+
+  velocity_t *velocity = init_velocity(bat);
+  velocity->x = 1;
+  velocity->mask = ENVIRONMENT_LAYER;
+
+  draw_rect_t *draw_rect = init_draw_rect(bat);
+  draw_rect->colour = 6;
+  draw_rect->fill = 1;
+
+  sensor_t *sensor = init_sensor(bat);
+  sensor->callback = enemy_sensor_callback;
+  sensor->mask = PLAYER_LAYER;
 
   init_bat(bat);
 

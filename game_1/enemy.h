@@ -15,7 +15,8 @@ typedef struct bat {
 void spawn_enemies(world_t *world, size_t *world_size, uint32_t frame);
 void check_zombie_jumps(world_t world, size_t world_size, uint32_t frame);
 
-entity_t *new_zombie(world_t *world, size_t *world_size, uint32_t frame);
-entity_t *new_bat(world_t *world, size_t *world_size);
+entity_t *new_zombie_jumper(world_t *world, size_t *world_size, uint32_t frame);
+entity_t *new_zombie_runner(world_t *world, size_t *world_size, uint32_t frame);
+entity_t *new_bat(world_t *world, size_t *world_size, uint32_t frame);
 
 #endif

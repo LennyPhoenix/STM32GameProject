@@ -100,5 +100,13 @@ MenuState Game1_Run(void) {
     }
   }
 
+  for (size_t i = 0; i < world_size; i++) {
+    entity_t *entity = world[i];
+    if (entity) {
+      delete_entity(entity, world, world_size);
+    }
+  }
+  free(world);
+
   return exit_state;
 }

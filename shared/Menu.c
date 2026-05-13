@@ -24,6 +24,7 @@ static const char* menu_options[] = {
  * @brief Render the home menu screen
  */
 static void render_home_menu(MenuSystem* menu) {
+    LCD_Set_Palette(0);
     LCD_Fill_Buffer(0);
     
     // Title

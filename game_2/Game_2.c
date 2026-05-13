@@ -133,13 +133,11 @@ MenuState Game2_Run(void) {
 
                 printf("entered other if\n"); 
                 reset_game(); 
-                game_over = 0; 
-
                 printf("Going to exit to menu now\n");
                 exit_state = MENU_STATE_HOME; 
-                break; 
+                game_over = 0; 
+                return exit_state; 
             }
-
         }
         
         // UPDATE: Game logic

@@ -3,19 +3,10 @@
 
 #include "Menu.h"
 
-/**
- * @brief Game 3 - Student can implement their own game here
- * 
- * Placeholder for Student 3's game implementation.
- * This structure allows multiple students to work on separate games
- * while sharing common utilities from the shared/ folder.
- * 
- * The menu system calls this function when Game 3 is selected.
- * The function runs its own loop and returns when the game exits.
- * 
- * @return MenuState - Where to go next (typically MENU_STATE_HOME for menu)
- */
-
+// Stickman Badminton: main entry point
 MenuState Game3_Run(void);
+
+// (Optional) Expose helpers for test or sprite migration
+// void draw_stickman_at(int16_t px, int16_t py, int8_t facing, uint8_t body_colour, bool holding_racket);
 
 #endif // GAME_3_H

@@ -100,7 +100,7 @@ MenuState Game2_Run(void) {
     buzzer_off(&buzzer_cfg);  // Stop the buzzer
 
     // Print welcome and instruction screen
-    printf("Skipping ahead\n"); 
+    //printf("Skipping ahead\n"); 
     welcome_screen();
     instruction_screen(); 
 
@@ -195,7 +195,7 @@ void pixel_coords (void) {                  // Convert the cursor coordinates in
 
 void welcome_screen (void) {
 
-    printf("Entered welcome\n");
+    //printf("Entered welcome\n");
 
     LCD_Fill_Buffer(4); 
     LCD_printString("Welcome", 40, 50, 0, 3);

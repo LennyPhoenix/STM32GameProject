@@ -214,11 +214,11 @@ void instruction_screen (void) {
 
     LCD_Fill_Buffer(4);
 
-    LCD_printString("Press the button", 10, 20, 0, 2);
-    LCD_printString("on the breadboard", 10, 40, 0, 2);
-    LCD_printString("to mark bombs.", 10, 60, 0, 2);
+    LCD_printString("Press the left", 10, 20, 0, 2);
+    LCD_printString("button to mark", 10, 40, 0, 2);
+    LCD_printString("bombs.", 10, 60, 0, 2);
 
-    LCD_printString("Press the blue", 10, 90, 0, 2);
+    LCD_printString("Press the right", 10, 90, 0, 2);
     LCD_printString("button to dig.", 10, 110, 0, 2);
 
     LCD_printString("Press the joystick", 10, 140, 0, 2);
